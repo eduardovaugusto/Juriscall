@@ -3,7 +3,6 @@ import { GoogleGenAI, Type } from "@google/genai";
 
 export const analyzeCallContext = async (info: string) => {
   try {
-    // Initialized ai client right before the call to ensure up-to-date API key usage.
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
@@ -23,7 +22,8 @@ export const analyzeCallContext = async (info: string) => {
       }
     });
 
-    return JSON.parse(response.text.trim());
+    const text = response.text || "{}";
+    return JSON.parse(text.trim());
   } catch (error) {
     console.error("Gemini analysis failed", error);
     return { priority: "Média", category: "Não Categorizado" };
@@ -32,7 +32,6 @@ export const analyzeCallContext = async (info: string) => {
 
 export const analyzeLegalProcess = async (processData: any) => {
   try {
-    // Initialized ai client right before the call to ensure up-to-date API key usage.
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const prompt = `Como um consultor jurídico sênior, analise os detalhes deste processo e forneça uma avaliação estratégica.
     
@@ -77,7 +76,8 @@ export const analyzeLegalProcess = async (processData: any) => {
       }
     });
 
-    return JSON.parse(response.text.trim());
+    const text = response.text || "{}";
+    return JSON.parse(text.trim());
   } catch (error) {
     console.error("Legal analysis failed", error);
     throw error;
@@ -86,7 +86,6 @@ export const analyzeLegalProcess = async (processData: any) => {
 
 export const summarizeInterview = async (notes: string) => {
   try {
-    // Initialized ai client right before the call to ensure up-to-date API key usage.
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const prompt = `Você é um analista jurídico especializado em conversão de clientes. Analise as seguintes notas de entrevista de um potencial cliente (Lead) e crie um resumo estruturado para o advogado.
     
@@ -116,7 +115,8 @@ export const summarizeInterview = async (notes: string) => {
       }
     });
 
-    return JSON.parse(response.text.trim());
+    const text = response.text || "{}";
+    return JSON.parse(text.trim());
   } catch (error) {
     console.error("Interview summary failed", error);
     throw error;
