@@ -1,0 +1,7 @@
+{
+  "name": "JurisCall - Sistema de Registro de Chamadas",
+  "description": "Um sistema completo de gerenciamento e análise de chamadas telefônicas para escritórios de advocacia, com dashboard estatístico e integração com IA para análise de casos.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
