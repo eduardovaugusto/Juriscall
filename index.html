@@ -10,7 +10,7 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #f8fafc;
+        background-color: #FFF9F9;
       }
       .custom-scrollbar::-webkit-scrollbar { width: 4px; }
       .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -18,6 +18,10 @@
       .custom-scrollbar-dark::-webkit-scrollbar { width: 4px; }
       .custom-scrollbar-dark::-webkit-scrollbar-track { background: transparent; }
       .custom-scrollbar-dark::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+      
+      /* Ocultar barra de rolagem mantendo a funcionalidade */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
   <script type="importmap">
 {

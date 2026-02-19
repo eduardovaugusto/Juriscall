@@ -13,8 +13,8 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, activeView, setView, isDbConnected = true }) => {
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-[#FFF9F9] overflow-hidden">
+      {/* Sidebar - Desktop Only */}
       <aside className="w-64 bg-slate-900 text-white flex flex-col hidden md:flex shadow-xl z-10">
         <div className="p-6 flex items-center gap-3 border-b border-slate-800">
           <div className="bg-amber-500 p-2 rounded-lg">
@@ -64,36 +64,57 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setView, isDbConn
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden relative">
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-0">
-          <h1 className="text-lg font-semibold text-slate-800 capitalize">
+      <main className="flex-1 flex flex-col overflow-hidden relative bg-[#FFF9F9]">
+        <header className="h-16 bg-[#FFF9F9]/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-4 md:px-8 z-20">
+          <div className="flex items-center gap-3 md:hidden">
+            <div className="bg-amber-500 p-1.5 rounded-lg">
+              <Scale size={18} className="text-white" />
+            </div>
+            <h1 className="text-base font-black text-slate-900">JurisCall</h1>
+          </div>
+          <h1 className="text-sm md:text-lg font-bold text-slate-800 capitalize hidden md:block">
             {NAV_ITEMS.find(i => i.id === activeView)?.label}
           </h1>
           <div className="flex items-center gap-4">
-             <div className="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-600">
-                {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+             <div className="bg-slate-100/50 px-3 py-1 rounded-full text-[10px] md:text-xs font-medium text-slate-600">
+                {new Date().toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })}
              </div>
           </div>
         </header>
-        <div className="flex-1 overflow-y-auto p-8 scroll-smooth">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth pb-24 md:pb-8">
           {children}
         </div>
       </main>
       
-      {/* Mobile Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-3 md:hidden">
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setView(item.id as View)}
-            className={`flex flex-col items-center gap-1 ${
-              activeView === item.id ? 'text-amber-500' : 'text-slate-400'
-            }`}
-          >
-            {item.icon}
-            <span className="text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
-          </button>
-        ))}
+      {/* Mobile Navigation - Fixed Bottom Horizontal Scroll */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-[#FFF9F9]/90 backdrop-blur-lg border-t border-slate-100 md:hidden z-50 overflow-x-auto no-scrollbar shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center w-max min-w-full px-2">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setView(item.id as View)}
+              className={`flex flex-col items-center justify-center py-4 px-4 min-w-[84px] transition-all duration-300 relative ${
+                activeView === item.id ? 'text-amber-600 scale-105' : 'text-slate-400'
+              }`}
+            >
+              <div className={`transition-all duration-300 ${activeView === item.id ? 'mb-1.5' : 'mb-1'}`}>
+                {/* Fixed: Added <any> type to ReactElement to allow dynamic properties like 'size' which Lucide icons accept */}
+                {React.cloneElement(item.icon as React.ReactElement<any>, { 
+                  size: activeView === item.id ? 22 : 20,
+                  className: activeView === item.id ? 'text-amber-500' : 'text-slate-400'
+                })}
+              </div>
+              <span className={`text-[8px] font-black uppercase tracking-tighter transition-all whitespace-nowrap ${
+                activeView === item.id ? 'opacity-100' : 'opacity-60'
+              }`}>
+                {item.label}
+              </span>
+              {activeView === item.id && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-amber-500 rounded-b-full"></div>
+              )}
+            </button>
+          ))}
+        </div>
       </nav>
     </div>
   );

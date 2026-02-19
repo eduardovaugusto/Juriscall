@@ -25,8 +25,11 @@ export interface LegalProcess {
   sentence?: string;
   honoraryValue?: number;
   totalEstimatedValue?: number; // Total value of the cause
+  estimatedBenefitValue?: number; // VALOR DA APOSENTADORIA (MENSAL)
+  cnisSummary?: string; // Resumo da contagem do CNIS
+  contributionTime?: string; // Ex: 35 anos, 2 meses e 10 dias
   paymentPrediction?: string;
-  startDate: string; // Mandatory for simulation
+  startDate: string; 
   createdAt: string;
 }
 

@@ -30,7 +30,7 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
 
-    // Category Distribution (for list view instead of pie)
+    // Category Distribution
     const categoryMap: Record<string, number> = {};
     calls.forEach(c => {
       categoryMap[c.category] = (categoryMap[c.category] || 0) + 1;
@@ -40,7 +40,7 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
       .sort((a, b) => b.value - a.value)
       .slice(0, 5);
 
-    // Calls by Day (Last 7 days) - Area Chart
+    // Calls by Day
     const dayMap: Record<string, number> = {};
     const last7Days = Array.from({length: 7}).map((_, i) => {
       const d = new Date();
@@ -95,7 +95,7 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Trend Chart */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm">
+        <div className="lg:col-span-2 bg-[#FFF9F9] p-8 rounded-[32px] border border-slate-100 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h3 className="text-xl font-bold text-slate-900">Fluxo de Demandas</h3>
@@ -126,7 +126,7 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
                 />
                 <YAxis hide />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px' }}
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px', backgroundColor: '#FFF9F9' }}
                   cursor={{ stroke: '#3b82f6', strokeWidth: 2, strokeDasharray: '5 5' }}
                 />
                 <Area 
@@ -180,8 +180,7 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Lawyer Productivity - Cleaner Bars */}
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm">
+        <div className="bg-[#FFF9F9] p-8 rounded-[32px] border border-slate-100 shadow-sm">
           <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <Briefcase size={18} className="text-slate-400" /> Produtividade por Advogado
           </h3>
@@ -197,10 +196,10 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
                   tick={{fill: '#64748b', fontSize: 12, fontWeight: 500}} 
                   width={140}
                 />
-                <Tooltip cursor={{fill: 'transparent'}} />
+                <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: '#FFF9F9', border: 'none', borderRadius: '12px' }} />
                 <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={16}>
                    {stats.callsPerLawyer.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index === 0 ? '#f59e0b' : '#e2e8f0'} />
+                    <Cell key={`cell-${index}`} fill={index === 0 ? '#f59e0b' : '#cbd5e1'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -208,8 +207,7 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
           </div>
         </div>
 
-        {/* Top Categories - List View (Better than Pie for clean look) */}
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm">
+        <div className="bg-[#FFF9F9] p-8 rounded-[32px] border border-slate-100 shadow-sm">
           <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <TrendingUp size={18} className="text-slate-400" /> Assuntos Predominantes
           </h3>
@@ -228,11 +226,6 @@ const Dashboard: React.FC<DashboardProps> = ({ calls, transactions }) => {
                   </div>
                </div>
              ))}
-             {stats.topCategories.length === 0 && (
-               <div className="text-center py-10 text-slate-400 text-sm italic">
-                  Aguardando registros para análise...
-               </div>
-             )}
           </div>
         </div>
       </div>
@@ -249,7 +242,7 @@ const StatCard = ({ title, value, icon, color, trend }: any) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
+    <div className="bg-[#FFF9F9] p-6 rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
       <div className="flex items-center gap-4 mb-4">
         <div className={`p-3 rounded-2xl ${colors[color]} border`}>
           {icon}

@@ -1,9 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CallRecord } from '../types';
-import { LAWYERS, CATEGORIES, PROCESS_PHASES } from '../constants';
+import { LAWYERS, PROCESS_PHASES } from '../constants';
 import { analyzeCallContext } from '../services/geminiService';
-import { Send, Loader2, Sparkles, User, Info, Scale, History, Layers } from 'lucide-react';
+import { Send, Loader2, Sparkles, User, Info, Scale, Layers } from 'lucide-react';
 
 interface CallFormProps {
   onSave: (call: CallRecord) => void;
@@ -59,63 +59,63 @@ const CallForm: React.FC<CallFormProps> = ({ onSave, existingCalls }) => {
 
   return (
     <div className="max-w-2xl mx-auto animate-in slide-in-from-bottom-4 duration-500 pb-20">
-      <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
-        <div className="bg-slate-900 p-8 text-white relative">
-          <h2 className="text-2xl font-bold">Registrar Nova Ligação</h2>
-          <p className="text-slate-400 mt-1">Insira os detalhes da chamada recebida.</p>
-          <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-20">
-             <Scale size={80} />
+      <div className="bg-[#FFF9F9] rounded-[40px] shadow-2xl shadow-slate-200/40 border border-slate-100 overflow-hidden">
+        <div className="bg-slate-900 p-10 text-white relative">
+          <h2 className="text-3xl font-black">Registrar Nova Ligação</h2>
+          <p className="text-slate-400 mt-2 font-medium">Capture os detalhes estratégicos do atendimento.</p>
+          <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-10">
+             <Scale size={100} />
           </div>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          <div className="grid grid-cols-1 gap-6">
+        <form onSubmit={handleSubmit} className="p-10 space-y-8">
+          <div className="grid grid-cols-1 gap-8">
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                <User size={16} /> Nome de quem ligou
+              <label className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest mb-3">
+                <User size={14} /> Nome de quem ligou
               </label>
               <input
                 required
                 type="text"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-semibold text-slate-900"
                 placeholder="Ex: Maria José Rodrigues"
                 value={formData.callerName}
                 onChange={e => setFormData({...formData, callerName: e.target.value})}
               />
               {formData.callerName && (
-                <div className="mt-2 flex items-center gap-2 text-xs font-medium">
+                <div className="mt-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-tighter">
                   {isFirstTime ? (
-                    <span className="text-emerald-600 bg-emerald-50 px-2 py-1 rounded">Primeira ligação deste contato</span>
+                    <span className="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">Novo Contato</span>
                   ) : (
-                    <span className="text-amber-600 bg-amber-50 px-2 py-1 rounded">Já ligou {callerHistory.length} vezes antes</span>
+                    <span className="text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">Já ligou {callerHistory.length} vezes</span>
                   )}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                <Info size={16} /> Informação buscada
+              <label className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest mb-3">
+                <Info size={14} /> Informação buscada
               </label>
               <textarea
                 required
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all h-32 resize-none"
+                className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all h-40 resize-none font-medium text-slate-800"
                 placeholder="Descreva brevemente o motivo da ligação..."
                 value={formData.information}
                 onChange={e => setFormData({...formData, information: e.target.value})}
               />
-              <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-                <Sparkles size={12} className="text-amber-500" /> A IA analisará a prioridade e categoria automaticamente
+              <div className="mt-2 flex items-center gap-1.5 text-[10px] text-slate-400 uppercase font-black tracking-widest">
+                <Sparkles size={12} className="text-amber-500" /> IA analisa prioridade automaticamente
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                  <User size={16} /> Advogado Destinatário
+                <label className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest mb-3">
+                  <User size={14} /> Advogado Destinatário
                 </label>
                 <select
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all appearance-none bg-white"
+                  className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all appearance-none font-bold text-slate-800"
                   value={formData.lawyerName}
                   onChange={e => setFormData({...formData, lawyerName: e.target.value})}
                 >
@@ -124,10 +124,10 @@ const CallForm: React.FC<CallFormProps> = ({ onSave, existingCalls }) => {
               </div>
               
               <div className="flex flex-col justify-center">
-                <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 cursor-pointer select-none">
+                <label className="flex items-center gap-3 text-sm font-bold text-slate-700 cursor-pointer select-none">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 border-slate-300"
+                    className="w-5 h-5 rounded-lg text-amber-500 focus:ring-amber-500 border-slate-200 bg-slate-50"
                     checked={formData.isProcess}
                     onChange={e => setFormData({...formData, isProcess: e.target.checked})}
                   />
@@ -137,20 +137,20 @@ const CallForm: React.FC<CallFormProps> = ({ onSave, existingCalls }) => {
             </div>
 
             {formData.isProcess && (
-              <div className="space-y-6 p-6 bg-slate-50 rounded-2xl border border-slate-200 animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="space-y-6 p-8 bg-slate-50 rounded-[32px] border border-slate-100 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 mb-2 block">Número do Processo</label>
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3 block">Número do Processo</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 outline-none bg-white"
+                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-amber-500/10 outline-none bg-white font-mono text-blue-600 font-bold"
                     placeholder="0000000-00.0000.0.00.0000"
                     value={formData.processNumber}
                     onChange={e => setFormData({...formData, processNumber: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
-                    <Layers size={16} /> Fase Atual do Processo
+                  <label className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
+                    <Layers size={14} /> Fase Atual
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {PROCESS_PHASES.map((phase) => (
@@ -158,9 +158,9 @@ const CallForm: React.FC<CallFormProps> = ({ onSave, existingCalls }) => {
                         key={phase}
                         type="button"
                         onClick={() => setFormData({...formData, processPhase: phase})}
-                        className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all ${
+                        className={`px-3 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-tighter border transition-all ${
                           formData.processPhase === phase 
-                            ? 'bg-amber-500 border-amber-500 text-white shadow-md shadow-amber-200' 
+                            ? 'bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-200' 
                             : 'bg-white border-slate-200 text-slate-600 hover:border-amber-300'
                         }`}
                       >
@@ -176,7 +176,7 @@ const CallForm: React.FC<CallFormProps> = ({ onSave, existingCalls }) => {
           <button
             disabled={analyzing}
             type="submit"
-            className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-slate-200"
+            className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-2xl shadow-slate-200"
           >
             {analyzing ? (
               <>
